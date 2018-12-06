@@ -12,7 +12,7 @@
   - "{{ ca_dir }}"
   - /root/.kube
 
-- name: 下载证书工具 CFSSL
+- name: 分发证书工具 CFSSL
   copy: src={{ base_dir }}/packages/cfssl/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - cfssl
@@ -20,7 +20,7 @@
   - cfssljson
   tags: upgrade_k8s
 
-- name: 下载kubectl
+- name: 分发 kubectl
   copy: src={{ base_dir }}/packages/kube-client/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - kubectl

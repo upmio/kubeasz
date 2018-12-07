@@ -6,22 +6,48 @@
       - firewalld-filesystem
     state: absent
 
-- name: 添加EPEL仓库
-  yum: name=epel-release state=latest
+#- name: 添加EPEL仓库
+#  yum: name=epel-release state=latest
 
 - name: 安装基础软件包
   yum: 
     name: 
-      - conntrack-tools     # ipvs 模式需要
+      #- conntrack-tools     # ipvs 模式需要
       - psmisc        # 安装psmisc 才能使用命令killall，它在keepalive的监测脚本中使用到
       - nfs-utils     # 挂载nfs 共享文件需要 (创建基于 nfs的PV 需要)
-      - jq                  # 轻量JSON处理程序，安装docker查询镜像需要
+      #- jq                  # 轻量JSON处理程序，安装docker查询镜像需要
       - socat               # 用于port forwarding
       - bash-completion     # bash命令补全工具，需要重新登录服务器生效
       - rsync               # 文件同步工具，分发证书等配置文件需要
       - ipset
       - ipvsadm
     state: latest
+
+- name: 准备jq安装目录
+  file: path=/tmp/jq state=directory
+
+- name: 传输jq rpm安装介质
+  copy: src={{ base_dir }}/down/{{ item }} dest=/tmp/jq mode=0755
+  with_items:
+    - jq-1.5-1.el7.x86_64.rpm
+    - oniguruma-5.9.5-3.el7.x86_64.rpm
+
+- name: 安装jq
+  shell: cd /tmp/jq ; yum -y localinstall *
+
+- name: 准备conntrack-tools安装目录
+  file: path=/tmp/cpmmtrack-tools state=directory
+
+- name: 传输conntrack-tools rpm安装介质
+  copy: src={{ base_dir }}/down/{{ item }} dest=/tmp/conntrack-tools mode=0755
+  with_items:
+    - conntrack-tools-1.4.4-4.el7.x86_64.rpm
+    - libnetfilter_cttimeout-1.0.0-6.el7.x86_64.rpm
+    - libnetfilter_cthelper-1.0.0-9.el7.x86_64.rpm
+    - libnetfilter_queue-1.0.2-2.el7_2.x86_64.rpm
+
+- name: 安装conntrack-tools
+  shell: cd /tmp/conntrack-tools ; yum -y localinstall *
 
 - name: 临时关闭 selinux
   shell: "setenforce 0"

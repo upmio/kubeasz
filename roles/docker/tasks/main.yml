@@ -5,18 +5,40 @@
   - "{{ bin_dir }}"
   - /etc/docker
 
-- name: 下载 docker 二进制文件
-  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+- name: 准备docker相关目录
+  file: name=/tmp/docker state=directory
+
+#- name: 下载 docker 二进制文件
+#  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+#  with_items:
+#  - docker-containerd
+#  - docker-containerd-shim
+#  - docker-init
+#  - docker-runc
+#  - docker
+#  - docker-containerd-ctr
+#  - dockerd
+#  - docker-proxy
+#  tags: upgrade_docker, download_docker
+
+- name: 下载docker rpm文件
+  copy: src={{ base_dir }}/package/docker/rpm/{{ item }} dest=/tmp/docker mode=0755
   with_items:
-  - docker-containerd
-  - docker-containerd-shim
-  - docker-init
-  - docker-runc
-  - docker
-  - docker-containerd-ctr
-  - dockerd
-  - docker-proxy
-  tags: upgrade_docker, download_docker
+  - atomic-registries-1.22.1-26.gitb507039.el7.centos.x86_64.rpm
+  - docker-common-1.13.1-84.git07f3374.el7.centos.x86_64.rpm
+  - containers-common-0.1.31-7.gitb0b750d.el7.centos.x86_64.rpm
+  - oci-register-machine-0-6.git2b44233.el7.x86_64.rpm
+  - container-selinux-2.74-1.el7.noarch.rpm
+  - oci-systemd-hook-0.1.18-2.git3efe246.el7.x86_64.rpm
+  - container-storage-setup-0.11.0-2.git5eaf76c.el7.noarch.rpm
+  - oci-umount-2.3.4-2.git87f9237.el7.x86_64.rpm
+  - docker-1.13.1-84.git07f3374.el7.centos.x86_64.rpm
+  - python-pytoml-0.1.14-1.git7dea353.el7.noarch.rpm
+  - docker-client-1.13.1-84.git07f3374.el7.centos.x86_64.rpm
+  - subscription-manager-rhsm-certificates-1.21.10-3.el7.centos.x86_64.rpm
+
+- name: 安装docker
+  shell: cd /tmp/docker ; yum localinstall *
 
 - name: docker命令自动补全
   copy: src=docker dest=/etc/bash_completion.d/docker mode=0644
@@ -30,17 +52,17 @@
         && iptables -F -t raw && iptables -X -t raw \
         && iptables -F -t mangle && iptables -X -t mangle"
 
-- name: 创建docker的systemd unit文件
-  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
-  tags: upgrade_docker, download_docker
-
-- name: 开机启用docker 服务
-  shell: systemctl enable docker
-  ignore_errors: true
-
-- name: 开启docker 服务
-  shell: systemctl daemon-reload && systemctl restart docker
-  tags: upgrade_docker
+#- name: 创建docker的systemd unit文件
+#  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
+#  tags: upgrade_docker, download_docker
+#
+#- name: 开机启用docker 服务
+#  shell: systemctl enable docker
+#  ignore_errors: true
+#
+#- name: 开启docker 服务
+#  shell: systemctl daemon-reload && systemctl restart docker
+#  tags: upgrade_docker
 
 ## 可选 ------安装docker查询镜像 tag的小工具----
 # 先要安装轻量JSON处理程序‘jq’，已在 prepare 节点安装

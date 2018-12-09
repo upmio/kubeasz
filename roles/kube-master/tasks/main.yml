@@ -1,5 +1,5 @@
 - name: 下载 kube-master 二进制
-  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/kube-master/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - kube-apiserver
   - kube-controller-manager

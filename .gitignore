@@ -24,3 +24,5 @@ roles/cluster-backup/files/*
 # cluster backups
 .cluster/
 hosts-single
+
+packages/*

@@ -7,7 +7,7 @@
   - /etc/cni/net.d
 
 - name: 下载 kubelet,kube-proxy 二进制和基础 cni plugins
-  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/package/kube-node/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - kubelet
   - kube-proxy

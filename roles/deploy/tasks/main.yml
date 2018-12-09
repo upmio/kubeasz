@@ -6,12 +6,16 @@
   - "{{ base_dir }}"
   - "/etc/kubernetes"
 
-- name: 下载证书工具 CFSSL和 kubectl
-  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+- name: 下载证书工具 CFSSL
+  copy: src={{ base_dir }}/packages/cfssl/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - cfssl
   - cfssl-certinfo
   - cfssljson
+
+- name: 下载kubectl
+  copy: src={{ base_dir }}/packages/kube-client/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  with_items:
   - kubectl
 
 # 注册变量p，根据p的stat信息判断是否已经生成过ca证书，如果没有，下一步生成证书

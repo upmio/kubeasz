@@ -27,7 +27,7 @@
   file: path=/tmp/jq state=directory
 
 - name: 传输jq rpm安装介质
-  copy: src={{ base_dir }}/down/{{ item }} dest=/tmp/jq mode=0755
+  copy: src={{ base_dir }}/packages/jq/rpm/{{ item }} dest=/tmp/jq mode=0755
   with_items:
     - jq-1.5-1.el7.x86_64.rpm
     - oniguruma-5.9.5-3.el7.x86_64.rpm
@@ -39,7 +39,7 @@
   file: path=/tmp/cpmmtrack-tools state=directory
 
 - name: 传输conntrack-tools rpm安装介质
-  copy: src={{ base_dir }}/down/{{ item }} dest=/tmp/conntrack-tools mode=0755
+  copy: src={{ base_dir }}/packges/conntrack/{{ item }} dest=/tmp/conntrack-tools mode=0755
   with_items:
     - conntrack-tools-1.4.4-4.el7.x86_64.rpm
     - libnetfilter_cttimeout-1.0.0-6.el7.x86_64.rpm

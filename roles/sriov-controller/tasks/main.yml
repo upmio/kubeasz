@@ -1,0 +1,16 @@
+- name: 下载cni-controller二进制文件
+  copy: src={{ base_dir }}/packages/etcd/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  with_items:
+  - cni-controller
+  tags: upgrade_k8s
+
+- name: 创建cni-controller的systemd unit文件
+  template: src=cni-controller.service.j2 dest=/etc/systemd/system/cni-controller.service
+
+- name: 开机启用cni-controller服务
+  shell: systemctl enable cni-controller
+  ignore_errors: true
+
+- name: 开启cni-controller服务
+  shell: systemctl daemon-reload && systemctl restart cni-controller
+  tags: upgrade_k8s

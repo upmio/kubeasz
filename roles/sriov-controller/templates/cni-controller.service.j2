@@ -1,0 +1,10 @@
+[Unit]
+Description=cni-controller
+After=network.target
+[Service]
+ExecStart={{ bin_dir }}/cni-controller --logtostderr=true -v=4 -master=http://{{ MASTER_IP }}:8080
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target

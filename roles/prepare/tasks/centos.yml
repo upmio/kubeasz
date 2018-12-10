@@ -30,7 +30,7 @@
   shell: cd /tmp/jq ; yum -y localinstall *
 
 - name: 传输conntrack-tools安装介质
-  copy: src={{ base_dir }}/packages/rpm/conntrack.tar dest=/tmp
+  unarchive: src={{ base_dir }}/packages/rpm/conntrack.tar dest=/tmp
 
 - name: 安装conntrack-tools
   shell: cd /tmp/conntrack-tools ; yum -y localinstall *

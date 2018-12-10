@@ -5,9 +5,6 @@
   - "{{ bin_dir }}"
   - /etc/docker
 
-- name: 准备docker相关目录
-  file: name=/tmp/docker state=directory
-
 #- name: 下载 docker 二进制文件
 #  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
 #  with_items:
@@ -22,7 +19,7 @@
 #  tags: upgrade_docker, download_docker
 
 - name: 传输docker安装介质
-  copy: src={{ base_dir }}/packages/rpm/docker.tar dest=/tmp
+  unarchive: src={{ base_dir }}/packages/rpm/docker.tar dest=/tmp
 
 - name: 安装docker
   shell: cd /tmp/docker ; yum -y localinstall *

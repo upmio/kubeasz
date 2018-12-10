@@ -13,7 +13,7 @@
   - /root/.kube
 
 - name: 分发证书工具 CFSSL
-  copy: src={{ base_dir }}/packages/cfssl/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - cfssl
   - cfssl-certinfo
@@ -21,7 +21,7 @@
   tags: upgrade_k8s
 
 - name: 分发 kubectl
-  copy: src={{ base_dir }}/packages/kube-client/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - kubectl
   tags: upgrade_k8s
@@ -41,7 +41,7 @@
   - ca-config.json
   delegate_to: "{{ groups.deploy[0] }}"
 
-- name: 写入环境变量$PATH 
+- name: 写入环境变量$PATH
   lineinfile:
     dest: ~/.bashrc
     state: present

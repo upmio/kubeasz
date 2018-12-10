@@ -21,21 +21,8 @@
 #  - docker-proxy
 #  tags: upgrade_docker, download_docker
 
-- name: 下载docker rpm文件
-  copy: src={{ base_dir }}/packages/docker/rpm/{{ item }} dest=/tmp/docker mode=0755
-  with_items:
-  - atomic-registries-1.22.1-26.gitb507039.el7.centos.x86_64.rpm
-  - docker-common-1.13.1-84.git07f3374.el7.centos.x86_64.rpm
-  - containers-common-0.1.31-7.gitb0b750d.el7.centos.x86_64.rpm
-  - oci-register-machine-0-6.git2b44233.el7.x86_64.rpm
-  - container-selinux-2.74-1.el7.noarch.rpm
-  - oci-systemd-hook-0.1.18-2.git3efe246.el7.x86_64.rpm
-  - container-storage-setup-0.11.0-2.git5eaf76c.el7.noarch.rpm
-  - oci-umount-2.3.4-2.git87f9237.el7.x86_64.rpm
-  - docker-1.13.1-84.git07f3374.el7.centos.x86_64.rpm
-  - python-pytoml-0.1.14-1.git7dea353.el7.noarch.rpm
-  - docker-client-1.13.1-84.git07f3374.el7.centos.x86_64.rpm
-  - subscription-manager-rhsm-certificates-1.21.10-3.el7.centos.x86_64.rpm
+- name: 传输docker安装介质
+  copy: src={{ base_dir }}/packages/rpm/docker.tar dest=/tmp
 
 - name: 安装docker
   shell: cd /tmp/docker ; yum -y localinstall *

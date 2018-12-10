@@ -7,7 +7,7 @@
   - /etc/cni/net.d
 
 - name: 下载 kubelet,kube-proxy 二进制和基础 cni plugins
-  copy: src={{ base_dir }}/packages/kube-node/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - kubelet
   - kube-proxy
@@ -27,7 +27,7 @@
         -config={{ ca_dir }}/ca-config.json \
         -profile=kubernetes kubelet-csr.json | {{ bin_dir }}/cfssljson -bare kubelet"
 
-# 创建kubelet.kubeconfig 
+# 创建kubelet.kubeconfig
 - name: 设置集群参数
   shell: "{{ bin_dir }}/kubectl config set-cluster kubernetes \
         --certificate-authority={{ ca_dir }}/ca.pem \
@@ -60,7 +60,7 @@
 
 - name: 创建kubelet的systemd unit文件
   template: src=kubelet.service.j2 dest=/etc/systemd/system/kubelet.service
-  tags: upgrade_k8s, restart_node 
+  tags: upgrade_k8s, restart_node
 
 - name: 开机启用kubelet 服务
   shell: systemctl enable kubelet
@@ -113,7 +113,7 @@
   register: node_status
   delegate_to: "{{ groups.deploy[0] }}"
   until: node_status.stdout == "Ready" or node_status.stdout == "Ready,SchedulingDisabled"
-  retries: 8 
+  retries: 8
   delay: 8
   tags: upgrade_k8s, restart_node
 

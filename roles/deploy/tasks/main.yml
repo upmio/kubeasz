@@ -7,14 +7,14 @@
   - "/etc/kubernetes"
 
 - name: 下载证书工具 CFSSL
-  copy: src={{ base_dir }}/packages/cfssl/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - cfssl
   - cfssl-certinfo
   - cfssljson
 
 - name: 下载kubectl
-  copy: src={{ base_dir }}/packages/kube-client/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - kubectl
 
@@ -34,7 +34,7 @@
 
 - name: 生成 CA 证书和私钥
   when: p.stat.isreg is not defined
-  shell: "cd {{ ca_dir }} && {{ bin_dir }}/cfssl gencert -initca ca-csr.json | {{ bin_dir }}/cfssljson -bare ca" 
+  shell: "cd {{ ca_dir }} && {{ bin_dir }}/cfssl gencert -initca ca-csr.json | {{ bin_dir }}/cfssljson -bare ca"
 
 #----------- 创建kubectl kubeconfig文件: /root/.kube/config
 - name: 准备kubectl使用的admin 证书签名请求

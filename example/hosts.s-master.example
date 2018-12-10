@@ -35,7 +35,9 @@ MASTER_IP="{{ groups['kube-master'][0] }}"
 KUBE_APISERVER="https://{{ MASTER_IP }}:6443"
 
 # 集群网络插件，目前支持calico, flannel, kube-router, cilium
-CLUSTER_NETWORK="flannel"
+CLUSTER_NETWORK="sriov"
+NETWORK_CONTROLLER="sriov-controller"
+NETWORK_PLUGIN="sriov-plugin"
 
 # 服务网段 (Service CIDR），注意不要与内网已有网段冲突
 SERVICE_CIDR="10.68.0.0/16"
@@ -62,6 +64,9 @@ BASIC_AUTH_PASS="test1234"
 # ---------附加参数--------------------
 #默认二进制文件目录
 bin_dir="/opt/kube/bin"
+
+#默认脚本文件目录
+scripts_dir="/opt/kube/scripts"
 
 #证书目录
 ca_dir="/etc/kubernetes/ssl"

@@ -1,0 +1,10 @@
+# to install network plugin, only one can be choosen
+- hosts:
+  - kube-master
+  roles:
+  - { role: network-controller, when: "CLUSTER_NETWORK == 'sriov'" }
+
+- hosts:
+  - kube-node
+  roles:
+  - { role: network-plugin, when: "CLUSTER_NETWORK == 'sriov'" }

@@ -33,7 +33,7 @@
   unarchive: src={{ base_dir }}/packages/rpm/conntrack.tar dest=/tmp
 
 - name: 安装conntrack-tools
-  shell: cd /tmp/conntrack-tools ; yum -y localinstall *
+  shell: cd /tmp/conntrack ; yum -y localinstall *
 
 - name: 临时关闭 selinux
   shell: "setenforce 0"

@@ -12,12 +12,17 @@
   - "{{ ca_dir }}"
   - /root/.kube
 
-- name: 下载证书工具 CFSSL和 kubectl
-  copy: src={{ base_dir }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+- name: 下载证书工具 CFSSL
+  copy: src={{ base_dir }}/packages/cfssl/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
   - cfssl
   - cfssl-certinfo
   - cfssljson
+  tags: upgrade_k8s
+
+- name: 下载kubectl
+  copy: src={{ base_dir }}/packages/kube-client/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  with_items:
   - kubectl
   tags: upgrade_k8s
 

@@ -1,0 +1,16 @@
+- name: 分发storage-controller二进制文件
+  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  with_items:
+  - {{ STORAGE_CONTROLLER }}
+  tags: upgrade_k8s
+
+- name: 创建storage-controller的systemd unit文件
+  template: src=storage-controller.service.j2 dest=/etc/systemd/system/{{ STORAGE_CONTROLLER }}.service
+
+- name: 开机启用storage-controller服务
+  shell: systemctl enable {{ STORAGE_CONTROLLER }}
+  ignore_errors: true
+
+- name: 开启storage-controller服务
+  shell: systemctl daemon-reload && systemctl restart {{ STORAGE_CONTROLLER }}
+  tags: upgrade_k8s

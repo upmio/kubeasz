@@ -1,0 +1,10 @@
+# to install network plugin, only one can be choosen
+- hosts:
+  - kube-master
+  roles:
+  - { role: storage-controller, when: "CLUSTER_STORRAGE == 'sriov'" }
+
+- hosts:
+  - kube-node
+  roles:
+  - { role: storage-agent when: "CLUSTER_STORRAGE == 'sriov'" }

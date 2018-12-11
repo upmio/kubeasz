@@ -1,0 +1,12 @@
+[Unit]
+Description={{ STORAGE_CONTROLLER }}
+After=network.target
+
+[Service]
+ExecStart={{ bin_dir }}/{{ STORAGE_CONTROLLER }} -kubeconfig=/etc/kubernetes/kubelet.kubeconfig -v=5
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

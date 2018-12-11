@@ -39,6 +39,11 @@ CLUSTER_NETWORK="sriov"
 NETWORK_CONTROLLER="sriov-controller"
 NETWORK_PLUGIN="sriov-plugin"
 
+# 集群存储插件
+CLUSTER_NETWORK="csi"
+STORAGE_CONTROLLER="csi-controller"
+STORAGE_AGENT="csi-agent"
+
 # 服务网段 (Service CIDR），注意不要与内网已有网段冲突
 SERVICE_CIDR="10.68.0.0/16"
 

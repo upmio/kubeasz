@@ -2,9 +2,9 @@
 - hosts:
   - kube-master
   roles:
-  - { role: network-controller, when: "CLUSTER_NETWORK == 'sriov'" }
+  - { role: network-controller, when: "CLUSTER_NETWORK == 'csi'" }
 
 - hosts:
   - kube-node
   roles:
-  - { role: network-plugin, when: "CLUSTER_NETWORK == 'sriov'" }
+  - { role: network-plugin, when: "CLUSTER_NETWORK == 'csi'" }

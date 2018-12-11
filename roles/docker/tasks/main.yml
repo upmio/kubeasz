@@ -36,6 +36,9 @@
         && iptables -F -t raw && iptables -X -t raw \
         && iptables -F -t mangle && iptables -X -t mangle"
 
+- name: 修改docker.service cgroup
+  shell: sed -i 's/systemd/cgroupfs/' /usr/lib/systemd/system/docker.service
+
 #- name: 创建docker的systemd unit文件
 #  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
 #  tags: upgrade_docker, download_docker

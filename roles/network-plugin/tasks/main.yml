@@ -11,5 +11,8 @@
   unarchive: src={{ base_dir }}/packages/scripts/sriovMGR.tar dest={{ scripts_dir }} mode=0755
   tags: upgrade_k8s
 
+- name: 清空默认conf配置
+  shell: mv /etc/cni/net.d/* /tmp
+
 - name: 部署sriov-plugin配置文件
   template: src=network-plugin.conf.j2 dest=/etc/cni/net.d/{{ NETWORK_PLUGIN }}.conf

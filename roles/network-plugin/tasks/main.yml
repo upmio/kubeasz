@@ -1,7 +1,7 @@
 - name: 分发sriov-plugin二进制文件
   copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
-  - {{ NETWORK_PLUGIN }}
+    - "{{ NETWORK_PLUGIN }}"
   tags: upgrade_k8s
 
 - name: 准备sriov-plugin脚本目录

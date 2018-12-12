@@ -1,16 +1,23 @@
 - name: 分发storage-controller二进制文件
   copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
-  - {{ STORAGE_CONTROLLER }}
+    - "{{ STORAGE_CONTROLLER }}"
+  tags: upgrade_k8s
+
+- name: 准备StorMGR脚本目录
+  file: path={{ scripts_dir }} state=directory mode=0755
+
+- name: 分发StorMGR脚本
+  unarchive: src={{ base_dir }}/packages/scripts/StorMGR.tar dest={{ scripts_dir }} mode=0755
   tags: upgrade_k8s
 
 - name: 创建storage-controller的systemd unit文件
   template: src=storage-controller.service.j2 dest=/etc/systemd/system/{{ STORAGE_CONTROLLER }}.service
 
 - name: 开机启用storage-controller服务
-  shell: systemctl enable {{ STORAGE_CONTROLLER }}
+  shell: systemctl enable "{{ STORAGE_CONTROLLER }}"
   ignore_errors: true
 
 - name: 开启storage-controller服务
-  shell: systemctl daemon-reload && systemctl restart {{ STORAGE_CONTROLLER }}
+  shell: systemctl daemon-reload && systemctl restart "{{ STORAGE_CONTROLLER }}"
   tags: upgrade_k8s

@@ -1,16 +1,23 @@
 - name: 分发storage-agent二进制文件
   copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
-  - {{ STORAGE_AGENT }}
+    - "{{ STORAGE_AGENT }}"
+  tags: upgrade_k8s
+
+- name: 准备VPMGR脚本目录
+  file: path={{ scripts_dir }} state=directory mode=0755
+
+- name: 分发VPMGR脚本
+  unarchive: src={{ base_dir }}/packages/scripts/VPMGR.tar dest={{ scripts_dir }} mode=0755
   tags: upgrade_k8s
 
 - name: 创建storage-agent的systemd unit文件
   template: src=storage-agent.service.j2 dest=/etc/systemd/system/{{ STORAGE_AGENT }}.service
 
 - name: 开机启用storage-agent服务
-  shell: systemctl enable {{ STORAGE_AGENT }}
+  shell: systemctl enable "{{ STORAGE_AGENT }}"
   ignore_errors: true
 
 - name: 开启storage-agent服务
-  shell: systemctl daemon-reload && systemctl restart {{ STORAGE_AGENT }}
+  shell: systemctl daemon-reload && systemctl restart "{{ STORAGE_AGENT }}"
   tags: upgrade_k8s

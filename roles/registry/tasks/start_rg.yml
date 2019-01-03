@@ -1,0 +1,18 @@
+- name: copy registry.service
+  template: src="registry.service.j2" dest=/usr/lib/systemd/system/registry.service
+
+- name: daemon-reload
+  shell: systemctl daemon-reload
+
+- name: boot registry
+  service: name=registry.service state=started enabled=yes
+
+- name: register docker-registry to consul
+  shell: su - {{REG_USER}} -c "sh {{REG_SCRIPTS_DIR}}/{{item}}.sh"
+  with_items:
+    - registry-reg
+#    - registry-reg-to-hs
+
+- name: test docker connect
+  shell: docker login -udocker -pdocker {{ DOCKER_REG_DOMAIN }}:{{ REG_PORT }}
+  ignore_errors: false

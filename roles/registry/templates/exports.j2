@@ -1,0 +1,3 @@
+{% set ipaddr = groups['Consul-server'][0] %}
+{% set list1 = ipaddr.split('.') %}
+{{REGISTRY_NFS_DIR}} {{ list1[0] }}.{{ list1[1] }}.{{ list1[2] }}.0/24(rw,sync,no_root_squash,no_all_squash)

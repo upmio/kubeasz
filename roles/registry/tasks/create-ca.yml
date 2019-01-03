@@ -1,0 +1,9 @@
+- name: copy create-tls.sh
+  template: src=create-tls.sh.j2 dest=/tmp/create-tls.sh mode=0755
+
+- name: gen cert
+  shell: sh /tmp/create-tls.sh
+  register: create-tls
+
+- name: tar cert
+  shell: cd /tmp/cert ;tar -cvf cert.tar *

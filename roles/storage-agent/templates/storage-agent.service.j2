@@ -3,7 +3,7 @@ Description={{ STORAGE_AGENT }}
 After=network.target
 
 [Service]
-ExecStart={{ bin_dir }}/{{ STORAGE_AGENT }} -hostname={{ inventory_hostname }} -kubeconfig=/etc/kubernetes/kubelet.kubeconfig --logtostderr=true -v=4 -shelldir={{ scripts_dir }}/VPMGR
+ExecStart={{ bin_dir }}/{{ STORAGE_AGENT }} -hostname={{ inventory_hostname }} -kubeconfig=/root/.kube/config --logtostderr=true -v=4 -shelldir={{ scripts_dir }}/VPMGR
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65536

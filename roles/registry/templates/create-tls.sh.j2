@@ -1,0 +1,42 @@
+#!/bin/bash
+
+cert_dir=/tmp/cert
+Country={{COUNTRY}}
+State={{STATE}}
+Location={{LOCATION}}
+Organization_name={{DOCKER_REG_ORG}}
+Sign_domain={{DOCKER_REG_DOMAIN}}
+username={{DOCKER_REG_USER}}
+passwd={{DOCKER_REG_PASSWORD}}
+
+
+which htpasswd
+if [ $? -eq 1  ]; then
+	echo "Please install httpd-tools"
+	exit 1
+fi
+rm -rf ${cert_dir}
+mkdir -p ${cert_dir}
+# create CA root key and csr
+openssl req -nodes -subj "/C=${Country}/ST=${State}/L=${Location}/O=${Organization_name}/CN=${Sign_domain}" -newkey rsa:4096 -keyout ${cert_dir}/${Sign_domain}.key -out ${cert_dir}/${Sign_domain}.csr
+
+# create CA cert
+openssl x509 -req -days 3650 -in ${cert_dir}/${Sign_domain}.csr -signkey ${cert_dir}/${Sign_domain}.key -out ${cert_dir}/${Sign_domain}.crt
+
+# set htpasswd
+
+htpasswd -Bbc ${cert_dir}/htpasswd ${username} ${passwd}
+
+cat << EOF > $cert_dir/README
+Country=$Country
+State=$State
+Location=$Location
+Organization_name=$Organization_name
+Sign_domain=$Sign_domain
+username=$username
+passwd=$passwd
+EOF
+
+chmod 400 $cert_dir/README
+chown root.root $cert_dir/README
+

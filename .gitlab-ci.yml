@@ -4,9 +4,9 @@
 # you can delete this line if you're not using Docker
 
 before_script:
-  - ln -s $CI_PROJECT_DIR /etc/ansible
-  - ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
-  - ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
+  - sudo ln -s $CI_PROJECT_DIR /etc/ansible
+  - sudo ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
+  - sudo ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
 
 production:
     stage: deploy

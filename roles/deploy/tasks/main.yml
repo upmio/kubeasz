@@ -3,7 +3,7 @@
   with_items:
   - "{{ bin_dir }}"
   - "{{ ca_dir }}"
-  - "{{ base_dir }}"
+#  - "{{ base_dir }}"
   - "/etc/kubernetes"
 
 - name: 下载证书工具 CFSSL

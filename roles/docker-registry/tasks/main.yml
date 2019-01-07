@@ -1,28 +1,16 @@
-- name: 安装httpd工具
+- name: install httpd
   yum: name={{item}} state=present
   with_items:
     - httpd
     - httpd-tools
 
-- name: make registry dir
-  file: path={{ item }} state=directory owner={{REG_USER}} group={{REG_USER_GROUP}} mode=0755
-  with_items:
-    - "{{REG_CONF_DIR}}"
-    - "{{REG_DATA_DIR}}"
+- name: 分发registry介质
+  copy: src={{ base_dir }}/packages/bin/registry dest={{ bin_dir }}/ mode=0755
 
-- name: 分发registry二进制文件
-  copy: src={{ base_dir }}/packages/bin/registry dest={{ bin_dir }}/registry mode=0755
-  tags: upgrade_k8s
+- name: 配置registry conf文件
+  template: src=config.yml.j2 dest={{ conf_dir }}/ mode=0755
 
-- name: copy registry config
-  template: src="{{item.src}}.j2" dest="{{item.dest}}/{{item.src}}" owner={{REG_USER}} group={{REG_USER_GROUP}} mode=0755
-  with_items:
-    - { src: "config.yml", dest: "{{REG_CONF_DIR}}" }
-    - { src: "start.sh", dest: "{{REG_USER_HOME_DIR}}" }
-    - { src: "stop.sh", dest: "{{REG_USER_HOME_DIR}}" }
-    - { src: "registry-reg.sh", dest: "{{REG_SCRIPTS_DIR}}" }
-
-- name: mkdir /etc/pki/registry
+- name: 创建/etc/pki/registry目录
   file: path={{item}} state=directory mode=0755
   with_items:
     - '/etc/pki/registry'
@@ -47,12 +35,9 @@
     regexp: '.*{{ DOCKER_REG_DOMAIN }}$'
     line: '{{item}} {{ DOCKER_REG_DOMAIN }}'
     state: present
-  with_items: '{{ groups["Docker-registry"] }}'
+  with_items: '{{ groups["registry"] }}'
 
 - name: cp cert_file to /etc/docker/certs.d
   shell: cp /etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt /etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}/ca.crt
 
 - include: "start_rg.yml"
-
-- name: mkdir DBScale
-  file: path=/DBScale/ state=directory

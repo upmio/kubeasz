@@ -17,4 +17,3 @@ run:
     script:
       - sudo ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
       - sudo ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
-      - sudo ansible-playbook 01.prepare.yml

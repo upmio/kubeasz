@@ -3,12 +3,18 @@
 
 # you can delete this line if you're not using Docker
 
-before_script:
-  - sudo ln -s $CI_PROJECT_DIR /etc/ansible
-  - sudo ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
-  - sudo ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
+stages:
+    - builds
+    - deploy
 
-production:
+prepare:
+    stage: builds
+    script:
+      - sudo ln -s $CI_PROJECT_DIR /etc/ansible
+      - sudo ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
+      - sudo ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
+
+run:
     stage: deploy
     script:
       - ansible-playbook 01.prepare.yml

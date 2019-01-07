@@ -11,10 +11,10 @@ prepare:
     stage: builds
     script:
       - sudo ln -s $CI_PROJECT_DIR /etc/ansible
-      - sudo ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
-      - sudo ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
 
 run:
     stage: deploy
     script:
+      - sudo ln -s /home/gitlab-runner/deployer/packages /etc/ansible/packages
+      - sudo ln -s /home/gitlab-runner/deployer/hosts /etc/ansible/hosts
       - ansible-playbook 01.prepare.yml

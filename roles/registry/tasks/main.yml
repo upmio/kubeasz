@@ -20,9 +20,7 @@
 - include: "create-ca.yml"
 
 - name: create pki
-  unarchive: src={{ item }} dest=/etc/pki/registry mode=0755 copy=no
-  with_items:
-    - /tmp/cert/cert.tar
+  unarchive: src=/tmp/cert/cert.tar dest=/etc/pki/registry mode=0755 copy=no
 
 - name: Build hosts file
   lineinfile:

@@ -9,7 +9,7 @@ Group=root
 Restart=on-failure
 Environment="REGISTRY_HTTP_TLS_CERTIFICATE=/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt" REGISTRY_HTTP_TLS_KEY=/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.key "REGISTRY_AUTH=htpasswd" REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm "REGISTRY_AUTH_HTPASSWD_PATH=/etc/pki/registry/htpasswd"
 ExecStartPre=-/usr/bin/pkill
-ExecStart={{REG_BIN_DIR}}/registry {{REG_CONF_DIR}}/config.yml
+ExecStart={{ bin_dir }}/registry {{ conf_dir }}/config.yml
 ExecReload=/bin/kill -s HUP $MAINPID
 KillSignal=SIGINT
 TimeoutStopSec=5

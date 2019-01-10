@@ -1,8 +1,9 @@
 - name: install httpd
-  yum: name={{item}} state=present
-  with_items:
-    - httpd
-    - httpd-tools
+  yum: name={{packages}} state=present
+  vars:
+    packages:
+      - httpd
+      - httpd-tools
 
 - name: 分发registry介质
   copy: src={{ base_dir }}/packages/bin/registry dest={{ bin_dir }}/ mode=0755
@@ -11,23 +12,23 @@
   template: src=config.yml.j2 dest={{ conf_dir }}/ mode=0755
 
 - name: 创建/etc/pki/registry目录
-  file: path={{item}} state=directory mode=0755
-  with_items:
-    - '/etc/pki/registry'
-    - '/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}'
+  file: path={{path}} state=directory mode=0755
+  vars:
+    path:
+      - '/etc/pki/registry'
+      - '/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}'
 
 - include: "create-ca.yml"
 
 - name: create pki
-  unarchive: src={{ item }} dest=/etc/pki/registry mode=0755 copy=no
-  with_items:
-    - /tmp/cert/cert.tar
+  unarchive: src=/tmp/cert/cert.tar dest=/etc/pki/registry mode=0755 copy=no
 
 - name: fetch ca from registry
-  fetch: src={{ item }} dest=/tmp/ mode=0755 flat=yes
-  with_items:
-    - /tmp/cert/cert.tar
-    - /etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt
+  fetch: src={{ file }} dest=/tmp/ mode=0755 flat=yes
+  vars:
+    file:
+      - /tmp/cert/cert.tar
+      - /etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt
 
 - name: Build hosts file
   lineinfile:

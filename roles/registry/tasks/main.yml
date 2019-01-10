@@ -12,11 +12,10 @@
   template: src=config.yml.j2 dest={{ conf_dir }}/config.yml mode=0755
 
 - name: 创建/etc/pki/registry目录
-  file: path={{path}} state=directory mode=0755
-  vars:
-    path:
-      - '/etc/pki/registry'
-      - '/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}'
+  file: path={{item}} state=directory mode=0755
+  with_items:
+    - '/etc/pki/registry'
+    - '/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}'
 
 - include: "create-ca.yml"
 

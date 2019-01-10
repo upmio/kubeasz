@@ -5,7 +5,7 @@
   shell: systemctl daemon-reload
 
 - name: boot registry
-  service: name=registry.service state=started enabled=yes
+  service: name=registry.service state=restarted enabled=yes
 
 - name: test docker connect
   shell: docker login -udocker -pdocker {{ DOCKER_REG_DOMAIN }}:{{ REG_PORT }}

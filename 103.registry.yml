@@ -4,14 +4,16 @@
     - registry
 
 - hosts:
+  - registry
+  tasks:
+    - name: 从regsitry取证书文件
+      fetch: src='/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt' dest=/tmp/
+
+- hosts:
   - kube-node
   tasks:
     - name: 创建证书目录
       file: path=/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}} state=directory mode=0755
-
-    - name: fetch ca from registry
-      fetch: src='/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt' dest=/tmp/
-      delegate_to: "{{groups['registry'][0]}}"
 
     - name: copy ca to horus
       copy: src=/tmp/{{DOCKER_REG_DOMAIN}}.crt dest=/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}/ca.crt mode=0755

@@ -25,7 +25,12 @@
 [new-node]
 #192.168.1.xx
 
-[registry:vars]
+[all:vars]
+# ---------集群主要参数---------------
+#集群部署模式：allinone, single-master, multi-master
+DEPLOY_MODE=single-master
+
+#registry配置参数
 DOCKER_REG_DOMAIN="registry.dbscale.me"
 REG_PORT=20160
 COUNTRY="CN"
@@ -34,11 +39,6 @@ LOCATION="puxi"
 DOCKER_REG_USER="docker"
 DOCKER_REG_PASSWORD="docker"
 DOCKER_REG_ORG="bsg"
-
-[all:vars]
-# ---------集群主要参数---------------
-#集群部署模式：allinone, single-master, multi-master
-DEPLOY_MODE=single-master
 
 #集群主版本号，目前支持: v1.8, v1.9, v1.10，v1.11, v1.12
 K8S_VER="v1.12"

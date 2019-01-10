@@ -8,6 +8,9 @@
 - name: 分发registry介质
   copy: src={{ base_dir }}/packages/bin/registry dest={{ bin_dir }}/ mode=0755
 
+- name: 创建registry conf 目录
+  file: path={{ conf_dir }} state=directory mode=0755
+
 - name: 配置registry conf文件
   template: src=config.yml.j2 dest={{ conf_dir }}/config.yml mode=0755
 

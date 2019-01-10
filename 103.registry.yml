@@ -2,3 +2,28 @@
   - registry
   roles:
     - registry
+
+- hosts:
+  - kube-node
+  tasks:
+    - name: 创建证书目录
+      file: path=/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}} state=directory mode=0755
+
+    - name: fetch ca from registry
+      fetch: src='/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt' dest=/tmp/
+      delegate_to: "{{groups['registry'][0]}}"
+
+    - name: copy ca to horus
+      cp: src=/tmp/{{DOCKER_REG_DOMAIN}}.crt dest=/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}/ca.crt mode=0755
+
+    - name: Build hosts file
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ DOCKER_REG_DOMAIN }}$'
+        line: '{{item}} {{ DOCKER_REG_DOMAIN }}'
+        state: present
+      with_items: '{{ groups["Docker-registry"] }}'
+
+    - name: test docker connect
+      shell: docker login -udocker -pdocker {{ DOCKER_REG_DOMAIN }}:{{ REG_PORT }}
+      ignore_errors: false

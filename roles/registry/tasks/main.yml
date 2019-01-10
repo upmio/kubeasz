@@ -21,13 +21,7 @@
 - include: "create-ca.yml"
 
 - name: create pki
-  unarchive: src=/tmp/cert/cert.tar dest=/etc/pki/registry mode=0755 copy=no
-
-- name: fetch ca from registry
-  fetch: src={{ item }} dest=/tmp/ mode=0755 flat=yes
-  with_items:
-      - '/tmp/cert/cert.tar'
-      - '/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt'
+  shell: cp /tmp/cert/* /etc/pki/registry/
 
 - name: Build hosts file
   lineinfile:

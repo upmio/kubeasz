@@ -4,6 +4,3 @@
 - name: gen cert
   shell: sh /tmp/create-tls.sh
   register: create-tls
-
-- name: tar cert
-  shell: cd /tmp/cert ;tar -cvf cert.tar *

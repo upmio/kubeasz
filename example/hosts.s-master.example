@@ -89,6 +89,9 @@ scripts_dir="/opt/kube/scripts"
 #默认配置文件目录
 conf_dir="/opt/kube/conf"
 
+#默认数据文件目录
+data_dir="/opt/kube/data"
+
 #证书目录
 ca_dir="/etc/kubernetes/ssl"
 

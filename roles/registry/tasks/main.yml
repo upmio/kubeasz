@@ -21,7 +21,7 @@
 - include: "create-ca.yml"
 
 - name: create pki
-  shell: cp -r /tmp/cert/* /etc/pki/registry/
+  shell: cp -r /tmp/cert/ /etc/pki/registry/
 
 - name: Build hosts file
   lineinfile:

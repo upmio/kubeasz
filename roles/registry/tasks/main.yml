@@ -27,8 +27,8 @@
   fetch: src={{ file }} dest=/tmp/ mode=0755 flat=yes
   vars:
     file:
-      - /tmp/cert/cert.tar
-      - /etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt
+      - '/tmp/cert/cert.tar'
+      - '/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt'
 
 - name: Build hosts file
   lineinfile:

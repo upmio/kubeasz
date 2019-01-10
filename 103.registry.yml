@@ -14,7 +14,7 @@
       delegate_to: "{{groups['registry'][0]}}"
 
     - name: copy ca to horus
-      cp: src=/tmp/{{DOCKER_REG_DOMAIN}}.crt dest=/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}/ca.crt mode=0755
+      copy: src=/tmp/{{DOCKER_REG_DOMAIN}}.crt dest=/etc/docker/certs.d/{{DOCKER_REG_DOMAIN}}:{{REG_PORT}}/ca.crt mode=0755
 
     - name: Build hosts file
       lineinfile:

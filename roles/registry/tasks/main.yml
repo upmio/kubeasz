@@ -9,7 +9,7 @@
   copy: src={{ base_dir }}/packages/bin/registry dest={{ bin_dir }}/ mode=0755
 
 - name: 配置registry conf文件
-  template: src=config.yml.j2 dest={{ conf_dir }}/ mode=0755
+  template: src=config.yml.j2 dest={{ conf_dir }}/config.yml mode=0755
 
 - name: 创建/etc/pki/registry目录
   file: path={{path}} state=directory mode=0755

@@ -24,7 +24,7 @@
         regexp: '.*{{ DOCKER_REG_DOMAIN }}$'
         line: '{{item}} {{ DOCKER_REG_DOMAIN }}'
         state: present
-      with_items: '{{ groups["Docker-registry"] }}'
+      with_items: '{{ groups["registry"] }}'
 
     - name: test docker connect
       shell: docker login -udocker -pdocker {{ DOCKER_REG_DOMAIN }}:{{ REG_PORT }}

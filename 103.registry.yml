@@ -7,7 +7,7 @@
   - registry
   tasks:
     - name: 从regsitry取证书文件
-      fetch: src='/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt' dest=/tmp/{{DOCKER_REG_DOMAIN}}.crt
+      fetch: src='/etc/pki/registry/{{DOCKER_REG_DOMAIN}}.crt' dest=/tmp/{{DOCKER_REG_DOMAIN}}.crt flat=yes
 
 - hosts:
   - kube-node

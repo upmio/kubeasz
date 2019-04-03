@@ -6,9 +6,6 @@
       - firewalld-filesystem
     state: absent
 
-#- name: 添加EPEL仓库
-#  yum: name=epel-release state=latest
-
 - name: 安装基础软件包
   yum:
     name:
@@ -21,7 +18,7 @@
       - rsync               # 文件同步工具，分发证书等配置文件需要
       - ipset
       - ipvsadm
-    state: latest
+    state: present 
 
 - name: 传输jq安装介质
   unarchive: src={{ base_dir }}/packages/rpm/jq.tar dest=/tmp

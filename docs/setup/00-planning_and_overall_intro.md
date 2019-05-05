@@ -11,11 +11,11 @@
 |:-|:-|:-|
 |deploy节点|1|运行这份 ansible 脚本的节点|
 |etcd节点|3|注意etcd集群必须是1,3,5,7...奇数个节点|
-|master节点|2|需要额外规划一个master VIP(虚地址)，可根据需要提升机器配置或增加节点数|
+|master节点|2|需要额外规划一个master VIP(虚地址)，一般可以复用etcd节点|
 |lb节点|2|负载均衡节点两个，安装 haproxy+keepalived|
 |node节点|3|运行应用负载的节点，可根据需要提升机器配置或增加节点数|
 
-项目预定义了4个例子，请修改后完成适合你的集群规划，生产环境建议一个节点只是一个角色。
+项目预定义了4个例子，请修改后完成适合你的集群规划。
 
 + [单节点](../../example/hosts.allinone.example)
 + [单主多节点](../../example/hosts.s-master.example)
@@ -54,6 +54,7 @@ yum update
 # 安装python
 yum install python -y
 ```
+
 ### 3.在deploy节点安装及准备ansible
 
 - pip 安装 ansible（如果 Ubuntu pip报错，请看[附录](00-planning_and_overall_intro.md#Appendix)）
@@ -73,32 +74,36 @@ pip install --no-cache-dir ansible -i http://mirrors.aliyun.com/pypi/simple/ --t
 - 在deploy节点配置免密码登陆
 
 ``` bash
-ssh-keygen -t rsa -b 2048 回车 回车 回车
+# 更安全 Ed25519 算法
+ssh-keygen -t ed25519 -N '' -f ~/.ssh/id_ed25519
+# 或者传统 RSA 算法
+ssh-keygen -t rsa -b 2048 -N '' -f ~/.ssh/id_rsa
+
 ssh-copy-id $IPs #$IPs为所有节点地址包括自身，按照提示输入yes 和root密码
 ```
+
 ### 4.在deploy节点编排k8s安装
 
 - 4.1 下载项目源码
 
 ``` bash
 # 方式一：使用git clone
-git clone --depth=1 https://github.com/gjmzj/kubeasz.git
-mkdir -p /etc/ansible
-mv kubeasz/* /etc/ansible
+git clone --depth=1 https://github.com/gjmzj/kubeasz.git /etc/ansible
+
 # 方式二：从发布页面 https://github.com/gjmzj/kubeasz/releases 下载源码解压到同样目录
 ```
 - 4.2a 下载二进制文件
 请从分享的[百度云链接](https://pan.baidu.com/s/1c4RFaA)，下载解压到/etc/ansible/bin目录，如果你有合适网络环境也可以按照/down/download.sh自行从官网下载各种tar包
 
 ``` bash
-tar zxvf k8s.1-9-8.tar.gz       # 以安装k8s v1.9.8为例
-mv bin/* /etc/ansible/bin
+# 以安装k8s v1.13.5为例
+tar -xvf k8s.1-13-5.tar.gz -C /etc/ansible
 ```
 - 4.2b [可选]下载离线docker镜像
 服务器使用内部yum源/apt源，但是无法访问公网情况下，请下载离线docker镜像完成集群安装；从百度云盘把`basic_images_kubeasz_x.y.tar.gz` 下载解压到`/etc/ansible/down` 目录
 
 ``` bash
-tar zxvf basic_images_kubeasz_0.2.tar.gz -C /etc/ansible/down
+tar xvf basic_images_kubeasz_1.0.tar.gz -C /etc/ansible/down
 ```
 - 4.3 配置集群参数
   - 4.3.1 必要配置：`cd /etc/ansible && cp example/hosts.m-masters.example hosts`, 然后实际情况修改此hosts文件

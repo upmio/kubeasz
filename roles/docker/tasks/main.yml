@@ -6,10 +6,10 @@
   - /etc/docker
 
 - name: 传输docker安装介质
-  unarchive: src={{ base_dir }}/packages/rpm/docker.tar dest=/tmp
+  copy: src={{ base_dir }}/packages/rpm/docker/ dest=/tmp/docker/ mode=0755
 
 - name: 安装docker
-  shell: cd /tmp/docker ; yum -y localinstall *
+  shell: yum -y --nogpgcheck localinstall /tmp/docker/*
 
 - name: docker命令自动补全
   copy: src=docker dest=/etc/bash_completion.d/docker mode=0644

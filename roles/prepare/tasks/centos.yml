@@ -21,16 +21,16 @@
     state: present 
 
 - name: 传输jq安装介质
-  unarchive: src={{ base_dir }}/packages/rpm/jq.tar dest=/tmp
+  copy: src={{ base_dir }}/packages/rpm/jq/ dest=/tmp/jq mode=0755
 
 - name: 安装jq
-  shell: cd /tmp/jq ; yum -y localinstall *
+  shell: yum -y --nogpgcheck localinstall /tmp/jq/*
 
 - name: 传输conntrack-tools安装介质
-  unarchive: src={{ base_dir }}/packages/rpm/conntrack.tar dest=/tmp
+  copy: src={{ base_dir }}/packages/rpm/conntrack/ dest=/tmp/conntrack/ mode=0755
 
 - name: 安装conntrack-tools
-  shell: cd /tmp/conntrack ; yum -y localinstall *
+  shell: yum -y --nogpgcheck localinstall /tmp/conntrack/*
 
 - name: 临时关闭 selinux
   shell: "setenforce 0"

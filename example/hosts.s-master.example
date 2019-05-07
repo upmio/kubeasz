@@ -91,4 +91,4 @@ data_dir="/opt/kube/data"
 ca_dir="/etc/kubernetes/ssl"
 
 #部署目录，即 ansible 工作目录
-base_dir="/etc/ansible"
+base_dir="{{ playbook_dir }}"

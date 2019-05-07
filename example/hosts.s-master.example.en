@@ -63,4 +63,4 @@ bin_dir="/opt/kube/bin"
 ca_dir="/etc/kubernetes/ssl"
 
 # Deploy Directory (kubeasz workspace), don't change the default value right now
-base_dir="/etc/ansible"
+base_dir="{{ playbook_dir }}"

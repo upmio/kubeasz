@@ -61,4 +61,4 @@ bin_dir="/opt/kube/bin"
 ca_dir="/etc/kubernetes/ssl"
 
 #部署目录，即 ansible 工作目录，建议不要修改
-base_dir="/etc/ansible"
+base_dir="{{ playbook_dir }}"

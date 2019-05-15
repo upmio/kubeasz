@@ -23,21 +23,25 @@ cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/storage/controller" || die 15 "cd s
 /bin/sh build.sh &> /dev/null || die 16 "build csi-controller failed!"
 mv controller "${ANSIBLE_DIR}/packages/dbscale/csi-controller/bin/csi-controller" || die 17 "update csi-controller failed!"
 
-if [[ -d "${ANSIBLE_DIR}/packages/scripts/StorMGR" ]]; then
-    rm -rf "${ANSIBLE_DIR}/packages/scripts/StorMGR" || die 18 "remove StorMGR failed!"
+if [[ -d "${ANSIBLE_DIR}/packages/scripts" ]]; then
+    mkdir -p "${ANSIBLE_DIR}/packages/scripts" || die 18 "mkdir scripts failed!"
 fi
-cp -r scripts/StorMGR "${ANSIBLE_DIR}/packages/scripts" || die 19 "update StorMGR failed!"
+
+if [[ -d "${ANSIBLE_DIR}/packages/scripts/StorMGR" ]]; then
+    rm -rf "${ANSIBLE_DIR}/packages/scripts/StorMGR" || die 19 "remove StorMGR failed!"
+fi
+cp -r scripts/StorMGR "${ANSIBLE_DIR}/packages/scripts" || die 20 "update StorMGR failed!"
 
 if [[ -d "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" ]]; then
-    rm -rf "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" || die 20 "remove csi-agent failed!"
+    rm -rf "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" || die 21 "remove csi-agent failed!"
 fi
-mkdir -p "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin" || die 21 "mkdir csi-agent failed!"
+mkdir -p "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin" || die 22 "mkdir csi-agent failed!"
 
-cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/storage/agent/agentController" || die 22 "cd storage agent dir failed"
-/bin/sh build.sh &> /dev/null || die 23 "build csi-agent failed!"
-mv agentController "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin/csi-agent" || die 24 "update csi-agent failed!"
+cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/storage/agent/agentController" || die 23 "cd storage agent dir failed"
+/bin/sh build.sh &> /dev/null || die 24 "build csi-agent failed!"
+mv agentController "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin/csi-agent" || die 25 "update csi-agent failed!"
 
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/VPMGR" ]]; then
-    rm -rf "${ANSIBLE_DIR}/packages/scripts/VPMGR" || die 25 "remove VPMGR failed!"
+    rm -rf "${ANSIBLE_DIR}/packages/scripts/VPMGR" || die 26 "remove VPMGR failed!"
 fi
-cp -r scripts/VPMGR "${ANSIBLE_DIR}/packages/scripts" || die 26 "update VPMGR failed!"
+cp -r scripts/VPMGR "${ANSIBLE_DIR}/packages/scripts" || die 27 "update VPMGR failed!"

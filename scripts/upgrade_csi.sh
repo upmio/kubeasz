@@ -30,7 +30,7 @@ fi
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/StorMGR" ]]; then
     rm -rf "${ANSIBLE_DIR}/packages/scripts/StorMGR" || die 19 "remove StorMGR failed!"
 fi
-cp -r scripts/StorMGR "${ANSIBLE_DIR}/packages/scripts" || die 20 "update StorMGR failed!"
+cp -r scripts/StorMGR "${ANSIBLE_DIR}/packages/scripts/" || die 20 "update StorMGR failed!"
 
 if [[ -d "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" ]]; then
     rm -rf "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" || die 21 "remove csi-agent failed!"
@@ -44,4 +44,4 @@ mv agentController "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin/csi-agent" || 
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/VPMGR" ]]; then
     rm -rf "${ANSIBLE_DIR}/packages/scripts/VPMGR" || die 26 "remove VPMGR failed!"
 fi
-cp -r scripts/VPMGR "${ANSIBLE_DIR}/packages/scripts" || die 27 "update VPMGR failed!"
+cp -r scripts/VPMGR "${ANSIBLE_DIR}/packages/scripts/" || die 27 "update VPMGR failed!"

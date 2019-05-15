@@ -39,4 +39,4 @@ fi
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/sriovMGR" ]]; then
     rm -rf "${ANSIBLE_DIR}/packages/scripts/sriovMGR" || die 26 "remove sriovMGR failed!"
 fi
-cp -r scripts/sriovMGR "${ANSIBLE_DIR}/packages/scripts" || die 27 "update sriovMGR failed!"
+cp -r scripts/sriovMGR "${ANSIBLE_DIR}/packages/scripts/" || die 27 "update sriovMGR failed!"

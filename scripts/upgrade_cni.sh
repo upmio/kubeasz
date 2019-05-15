@@ -32,11 +32,8 @@ cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/network/plugin" || die 22 "cd netwo
 /bin/sh build.sh &> /dev/null || die 23 "build sriov-plugin failed!"
 mv plugin "${ANSIBLE_DIR}/packages/dbscale/sriov-plugin/bin/sriov-plugin" || die 24 "update sriov-plugin failed!"
 
-if [[ -d "${ANSIBLE_DIR}/packages/scripts" ]]; then
-    mkdir -p "${ANSIBLE_DIR}/packages/scripts" || die 25 "mkdir scripts failed!"
-fi
-
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/sriovMGR" ]]; then
-    rm -rf "${ANSIBLE_DIR}/packages/scripts/sriovMGR" || die 26 "remove sriovMGR failed!"
+    rm -rf "${ANSIBLE_DIR}/packages/scripts/sriovMGR" || die 25 "remove sriovMGR failed!"
 fi
-cp -r scripts/sriovMGR "${ANSIBLE_DIR}/packages/scripts/" || die 27 "update sriovMGR failed!"
+mkdir -p "${ANSIBLE_DIR}/packages/scripts/sriovMGR" || die 26 "mkdir sriovMGR failed!"
+cp -r scripts/sriovMGR/* "${ANSIBLE_DIR}/packages/scripts/sriovMGR/" || die 27 "update sriovMGR failed!"

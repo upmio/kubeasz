@@ -1,5 +1,5 @@
 - name: 分发sriov-controller二进制文件
-  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/dbscale/{{ item }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
     - "{{ NETWORK_CONTROLLER }}"
   tags: upgrade_k8s

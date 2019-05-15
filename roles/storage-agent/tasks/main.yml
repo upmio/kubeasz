@@ -1,5 +1,5 @@
 - name: 分发storage-agent二进制文件
-  copy: src={{ base_dir }}/packages/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
+  copy: src={{ base_dir }}/packages/dbscale/{{ item }}/bin/{{ item }} dest={{ bin_dir }}/{{ item }} mode=0755
   with_items:
     - "{{ STORAGE_AGENT }}"
   tags: upgrade_k8s
@@ -8,7 +8,7 @@
   file: path={{ scripts_dir }} state=directory mode=0755
 
 - name: 分发VPMGR脚本
-  unarchive: src={{ base_dir }}/packages/scripts/VPMGR.tar dest={{ scripts_dir }} mode=0755
+  copy: src={{ base_dir }}/packages/scripts/VPMGR/ dest={{ scripts_dir }}/VPMGR/ mode=0755
   tags: upgrade_k8s
 
 - name: 创建storage-agent的systemd unit文件

@@ -23,11 +23,16 @@ cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/network/controller" || die 15 "cd n
 /bin/sh build.sh &> /dev/null || die 16 "build sriov-controller failed!"
 mv controller "${ANSIBLE_DIR}/packages/dbscale/sriov-controller/bin/sriov-controller" || die 17 "update sriov-controller failed!"
 
-cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/network/plugin" || die 20 "cd network plugin dir failed"
-/bin/sh build.sh &> /dev/null || die 21 "build sriov-plugin failed!"
-mv plugin "${ANSIBLE_DIR}/packages/dbscale/sriov-plugin/bin/sriov-plugin" || die 22 "update sriov-plugin failed!"
+if [[ -d "${ANSIBLE_DIR}/packages/dbscale/sriov-plugin/" ]]; then
+    rm -rf "${ANSIBLE_DIR}/packages/dbscale/sriov-plugin/" || die 20 "remove sriov-plugin failed!"
+fi
+mkdir -p "${ANSIBLE_DIR}/packages/dbscale/sriov-plugin/bin" || die 21 "mkdir sriov-plugin failed!"
+
+cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/network/plugin" || die 22 "cd network plugin dir failed"
+/bin/sh build.sh &> /dev/null || die 23 "build sriov-plugin failed!"
+mv plugin "${ANSIBLE_DIR}/packages/dbscale/sriov-plugin/bin/sriov-plugin" || die 24 "update sriov-plugin failed!"
 
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/sriovMGR" ]]; then
-    rm -rf "${ANSIBLE_DIR}/packages/scripts/sriovMGR" || die 23 "remove sriovMGR failed!"
+    rm -rf "${ANSIBLE_DIR}/packages/scripts/sriovMGR" || die 25 "remove sriovMGR failed!"
 fi
-cp -r scripts/sriovMGR "${ANSIBLE_DIR}/packages/scripts" || die 24 "update sriovMGR failed!"
+cp -r scripts/sriovMGR "${ANSIBLE_DIR}/packages/scripts" || die 26 "update sriovMGR failed!"

@@ -28,11 +28,16 @@ if [[ -d "${ANSIBLE_DIR}/packages/scripts/StorMGR" ]]; then
 fi
 cp -r scripts/StorMGR "${ANSIBLE_DIR}/packages/scripts" || die 19 "update StorMGR failed!"
 
-cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/storage/agent/agentController" || die 20 "cd storage agent dir failed"
-/bin/sh build.sh &> /dev/null || die 21 "build csi-agent failed!"
-mv agentController "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin/csi-agent" || die 22 "update csi-agent failed!"
+if [[ -d "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" ]]; then
+    rm -rf "${ANSIBLE_DIR}/packages/dbscale/csi-agent/" || die 20 "remove csi-agent failed!"
+fi
+mkdir -p "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin" || die 21 "mkdir csi-agent failed!"
+
+cd "${DBSCALE_KUBE_REPO_PATH}/cluster_engine/storage/agent/agentController" || die 22 "cd storage agent dir failed"
+/bin/sh build.sh &> /dev/null || die 23 "build csi-agent failed!"
+mv agentController "${ANSIBLE_DIR}/packages/dbscale/csi-agent/bin/csi-agent" || die 24 "update csi-agent failed!"
 
 if [[ -d "${ANSIBLE_DIR}/packages/scripts/VPMGR" ]]; then
-    rm -rf "${ANSIBLE_DIR}/packages/scripts/VPMGR" || die 23 "remove VPMGR failed!"
+    rm -rf "${ANSIBLE_DIR}/packages/scripts/VPMGR" || die 25 "remove VPMGR failed!"
 fi
-cp -r scripts/VPMGR "${ANSIBLE_DIR}/packages/scripts" || die 24 "update VPMGR failed!"
+cp -r scripts/VPMGR "${ANSIBLE_DIR}/packages/scripts" || die 26 "update VPMGR failed!"

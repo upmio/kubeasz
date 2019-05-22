@@ -9,11 +9,12 @@
 
 |角色|数量|描述|
 |:-|:-|:-|
-|deploy节点|1|运行这份 ansible 脚本的节点|
-|etcd节点|3|注意etcd集群必须是1,3,5,7...奇数个节点|
-|master节点|2|需要额外规划一个master VIP(虚地址)，一般可以复用etcd节点|
-|lb节点|2|负载均衡节点两个，安装 haproxy+keepalived|
-|node节点|3|运行应用负载的节点，可根据需要提升机器配置或增加节点数|
+|easzctl节点|1|运行ansible/easzctl脚本，一般复用deploy节点，但如果需要[管理创建多个集群](easzctl_cmd.md#%E5%85%B8%E5%9E%8B-easzctl-%E5%88%9B%E5%BB%BA%E7%AE%A1%E7%90%86%E7%9A%84%E9%9B%86%E7%BE%A4%E6%8B%93%E6%89%91%E5%A6%82%E4%B8%8B)，建议使用独立节点（1c1g）|
+|deploy节点|1|运行CA创建、集群部署、插件安装等，一般复用第一个master或node节点|
+|etcd节点|3|注意etcd集群需要1,3,5,7...奇数个节点，一般复用master节点|
+|master节点|2|多master节点需要额外规划一个master VIP(虚地址)|
+|lb节点|2|负载均衡节点安装 haproxy+keepalived，一般复用master节点|
+|node节点|3|运行应用负载的节点，可根据需要提升机器配置/增加节点数|
 
 项目预定义了4个例子，请修改后完成适合你的集群规划。
 

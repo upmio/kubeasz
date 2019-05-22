@@ -2,21 +2,17 @@
 
 `kubeasz`致力于提供快速部署高可用`k8s`集群的工具, 同时也努力成为`k8s`实践、使用的参考书；基于二进制方式部署和利用`ansible-playbook`实现自动化；既提供一键安装脚本, 也可以根据[指南](docs/setup/00-planning_and_overall_intro.md)分步执行安装各个组件。
 
-**集群特性：`TLS`双向认证、`RBAC`授权、多`Master`高可用、支持`Network Policy`、备份恢复**
-
-|组件|支持|
-|:-|:-|
-|OS|Ubuntu 16.04+, CentOS/RedHat 7|
-|k8s|v1.8, v1.9, v1.10, v1.11, v1.12, v1.13, v1.14|
-|etcd|v3.2, v3.3|
-|docker|17.03.x-ce, 18.06.x-ce, 18.09.x|
-|network|calico, cilium, flannel, kube-router|
-
-- 注：集群用到的所有二进制文件已打包好供下载 [https://pan.baidu.com/s/1c4RFaA](https://pan.baidu.com/s/1c4RFaA)  
+- **集群特性** `TLS`双向认证、`RBAC`授权、多`Master`高可用、支持`Network Policy`、备份恢复
+- **集群版本** kubernetes v1.8, v1.9, v1.10, v1.11, v1.12, v1.13, v1.14
+- **操作系统** Ubuntu 16.04+, CentOS/RedHat 7
+- **运行时** docker 17.03.x-ce, 18.06.x-ce, 18.09.x, containerd 1.2.6
+- **网络** calico, cilium, flannel, kube-router
 
 ## 快速指南
 
 单机快速体验k8s集群的测试、开发环境--[AllinOne部署](docs/setup/quickStart.md)
+
+- 注：集群用到的所有二进制文件已打包好供下载 [https://pan.baidu.com/s/1c4RFaA](https://pan.baidu.com/s/1c4RFaA)
 
 ## 安装指南
 
@@ -36,8 +32,8 @@
 </table>
 
 - 命令行工具 [easzctl介绍](docs/setup/easzctl_cmd.md)
-- 公有云部署 [使用kubeasz在公有云上创建k8s集群](docs/setup/kubeasz_on_public_cloud.md)
-- 容器部署   [使用kubeasz容器创建k8s集群](docs/setup/docker_kubeasz.md)
+- 公有云自建集群 [部署指南](docs/setup/kubeasz_on_public_cloud.md) [阿里云](docs/setup/kubeasz_on_aliyun.md) [腾讯云](docs/setup/kubeasz_on_tencent_cloud.md) [百度云](docs/setup/kubeasz_on_baidu_cloud.md) [AWS](docs/setup/kubeasz_on_aws_cloud.md)
+- 容器部署集群 [使用kubeasz容器创建k8s集群（测试）](docs/setup/docker_kubeasz.md)
 
 ## 使用指南
 
